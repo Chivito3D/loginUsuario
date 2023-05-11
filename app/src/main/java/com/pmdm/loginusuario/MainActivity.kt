@@ -27,8 +27,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import com.pmdm.loginusuario.ui.theme.LoginUsuarioTheme
 
 class MainActivity : ComponentActivity() {
@@ -48,6 +50,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun LoginScreen() {
     Scaffold(
@@ -66,6 +69,8 @@ fun LoginScreen() {
         var textoPassWord by rememberSaveable { mutableStateOf("") }
         var resultado by rememberSaveable { mutableStateOf("") }
 
+        val keyboardController = LocalSoftwareKeyboardController.current
+
         Column(
             Modifier
                 .padding(it)
@@ -78,7 +83,8 @@ fun LoginScreen() {
                 value = textoUsuario,
                 onValueChange = { textoUsuario = it },
                 label = { Text("Login") },
-                placeholder = { Text("Usuario") }
+                placeholder = { Text("Usuario") },
+
             )
             OutlinedTextField(
                 value = textoPassWord,
@@ -93,6 +99,7 @@ fun LoginScreen() {
                     } else {
                         resultado = "Credenciales erroneas"
                     }
+                    keyboardController?.hide()
                 }
             ) {
                 Text("ENTRAR")
