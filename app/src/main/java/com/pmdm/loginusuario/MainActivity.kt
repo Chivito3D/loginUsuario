@@ -100,7 +100,8 @@ fun LoginScreen() {
                         resultado = "Credenciales erroneas"
                     }
                     keyboardController?.hide()
-                }
+                },
+                enabled = (!textoUsuario.isBlank() && !textoPassWord.isBlank())
             ) {
                 Text("ENTRAR")
             }
